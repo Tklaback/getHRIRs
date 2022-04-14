@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InvertSphere : MonoBehaviour
-{
+{ 
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +25,18 @@ public class InvertSphere : MonoBehaviour
                 tris[triLength + 1] = temp;
             }
             mesh.SetTriangles(tris, num);
+        }
+        for (int i = 0; i < normals.Length; i++)
+        {
+            GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Vector3 newNormal = normals[i];
+            cube.transform.position = newNormal * 9;
+            cube.transform.localScale = new Vector3(2.3f, 2.3f, .01f);
+            cube.transform.LookAt(new Vector3(0, 0, 0), cube.transform.up);
+            AudioSource source = cube.AddComponent(typeof(AudioSource)) as AudioSource;
+            source.playOnAwake = false;
+            source.clip = Resources.Load("AudioClips/sfx_belt_in") as AudioClip;
+            source.spatialBlend = 1;
         }
     }
 
